@@ -15,6 +15,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("ai.koog:koog-agents:0.6.0")
     implementation("ch.qos.logback:logback-classic:1.5.21")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.57.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
