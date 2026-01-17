@@ -6,6 +6,7 @@ import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
 import ai.koog.prompt.llm.LLMCapability
 import ai.koog.prompt.llm.LLMProvider
 import ai.koog.prompt.llm.LLModel
+
 // import io.ktor.client.*
 // import io.ktor.client.plugins.logging.*
 
@@ -25,8 +26,8 @@ val llmModel = LLModel(
         LLMCapability.OpenAIEndpoint.Completions,
         LLMCapability.OpenAIEndpoint.Responses,
     ),
-    contextLength = 4_096,
-    maxOutputTokens = 131_072,
+    contextLength = 131_072,
+    maxOutputTokens = 32_768, // 65_536
 )
 
 val llmClient = OpenAILLMClient(
