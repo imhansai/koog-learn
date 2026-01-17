@@ -6,9 +6,8 @@ import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.ext.agent.chatAgentStrategy
 import ai.koog.agents.ext.tool.AskUser
 import ai.koog.agents.ext.tool.SayToUser
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
-import dev.fromnowon.llmClient
 import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 
 /**
  * QueryRouter - 策略路由的核心類別
@@ -18,8 +17,8 @@ class QueryRouter {
 
     // 快速回應 Agent - 單次執行策略
     private val quickAgent = AIAgent(
-        promptExecutor = SingleLLMPromptExecutor(llmClient),
-        strategy = singleRunStrategy(),        // 簡單問題用單次執行
+        promptExecutor = singleLLMPromptExecutor,
+        strategy = singleRunStrategy(), // 簡單問題用單次執行
         systemPrompt = """
             你是一個高效客服助手，專門處理簡單查詢
             回答要直接、準確、簡潔
@@ -29,9 +28,9 @@ class QueryRouter {
     )
 
     // 深度支援 Agent - 聊天對話策略
-    private val deepAgent = ai.koog.agents.core.agent.AIAgent(
-        promptExecutor = SingleLLMPromptExecutor(llmClient),
-        strategy = chatAgentStrategy(),              // 複雜問題用對話策略
+    private val deepAgent = AIAgent(
+        promptExecutor = singleLLMPromptExecutor,
+        strategy = chatAgentStrategy(), // 複雜問題用對話策略
         systemPrompt = """
             你是一個專業的技術支援專家，能處理複雜問題
             可以與客戶多輪互動，深入了解問題並提供詳細解決方案

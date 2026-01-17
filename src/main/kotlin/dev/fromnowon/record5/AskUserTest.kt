@@ -3,30 +3,22 @@ package dev.fromnowon.record5
 import ai.koog.agents.core.agent.AIAgent
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.ext.tool.AskUser
-import ai.koog.prompt.executor.clients.openai.OpenAIClientSettings
-import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
-import kotlinx.coroutines.runBlocking
+import ai.koog.prompt.executor.clients.dashscope.DashscopeModels
+import dev.fromnowon.dashscopeLLMPromptExecutor
 
-val askUserAgent = AIAgent(
-    promptExecutor = SingleLLMPromptExecutor(
-        llmClient = OpenAILLMClient(
-            apiKey = "",
-            settings = OpenAIClientSettings(
-                baseUrl = "http://127.0.0.1:1234"
-            )
-        )
-    ),
-    systemPrompt = "请先询问对方的姓名，然后再打招呼",
-    llmModel = openAILLModel,
-    temperature = 0.7,
-    toolRegistry = ToolRegistry {
-        tool(AskUser)
-    },
-    maxIterations = 30
-)
+suspend fun main() {
 
-fun main() = runBlocking {
-    val result = askUserAgent.run("你好")
+    val aiAgent = AIAgent(
+        promptExecutor = dashscopeLLMPromptExecutor,
+        systemPrompt = "请先询问对方的姓名，然后再打招呼",
+        llmModel = DashscopeModels.QWEN3_MAX,
+        temperature = 0.7,
+        toolRegistry = ToolRegistry {
+            tool(AskUser)
+        },
+        maxIterations = 30
+    )
+
+    val result = aiAgent.run("你好")
     println(result)
 }

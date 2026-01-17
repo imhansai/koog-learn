@@ -1,10 +1,9 @@
 package dev.fromnowon.record11
 
 import ai.koog.prompt.dsl.prompt
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
 import ai.koog.prompt.streaming.StreamFrame
-import dev.fromnowon.llmClient
 import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 
 suspend fun main() {
 
@@ -13,7 +12,7 @@ suspend fun main() {
         user("简单介绍一下 koltin KMP")
     }
 
-    SingleLLMPromptExecutor(llmClient).executeStreaming(prompt, llmModel)
+    singleLLMPromptExecutor.executeStreaming(prompt, llmModel)
         .collect { frame ->
             when (frame) {
                 is StreamFrame.Append -> print(frame.text)

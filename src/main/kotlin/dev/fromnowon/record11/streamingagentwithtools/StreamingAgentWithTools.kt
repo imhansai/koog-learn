@@ -12,12 +12,11 @@ import ai.koog.agents.core.environment.ReceivedToolResult
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.core.tools.reflect.asTools
 import ai.koog.agents.features.eventHandler.feature.handleEvents
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
+import ai.koog.prompt.executor.clients.dashscope.DashscopeModels
 import ai.koog.prompt.message.Message
 import ai.koog.prompt.message.RequestMetaInfo
 import ai.koog.prompt.streaming.StreamFrame
-import dev.fromnowon.llmClient
-import dev.fromnowon.llmModel
+import dev.fromnowon.dashscopeLLMPromptExecutor
 
 suspend fun main() {
     val mermaidDiagram = streamingWithToolsStrategy().asMermaidDiagram()
@@ -67,9 +66,9 @@ private fun openAiAgent(
     toolRegistry: ToolRegistry,
     installFeatures: FeatureContext.() -> Unit = {}
 ) = AIAgent(
-    promptExecutor = SingleLLMPromptExecutor(llmClient),
+    promptExecutor = dashscopeLLMPromptExecutor,
     strategy = streamingWithToolsStrategy(),
-    llmModel = llmModel,
+    llmModel = DashscopeModels.QWEN3_MAX,
     systemPrompt = "You're responsible for running a Switch and perform operations on it by request",
     temperature = 0.0,
     toolRegistry = toolRegistry,

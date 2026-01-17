@@ -9,7 +9,7 @@ class MathTools : ToolSet {
 
     @Tool
     @LLMDescription("Multiplies two numbers and returns the result")
-    fun multiply(a: Double, b: Double): Double {
+    fun multiply(@LLMDescription("第一个数") a: Double, @LLMDescription("第二个数") b: Double): Double {
         val result = a * b
         return result
     }

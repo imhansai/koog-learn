@@ -6,9 +6,8 @@ import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.core.tools.annotations.LLMDescription
 import ai.koog.agents.ext.tool.SayToUser
 import ai.koog.agents.features.opentelemetry.feature.OpenTelemetry
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
-import dev.fromnowon.llmClient
 import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter
 import io.opentelemetry.sdk.trace.samplers.Sampler
@@ -19,7 +18,7 @@ class SimpleMonitoring {
 
     // 建立一個帶監控功能的 Agent
     private val monitoredAgent = AIAgent(
-        promptExecutor = SingleLLMPromptExecutor(llmClient),
+        promptExecutor = singleLLMPromptExecutor,
         systemPrompt = """
             你是一位 AI 助手，请使用简体中文回答问题。
         """.trimIndent(),

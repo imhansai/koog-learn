@@ -2,9 +2,12 @@ package dev.fromnowon
 
 import ai.koog.prompt.executor.clients.openai.OpenAIClientSettings
 import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
+import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
 import ai.koog.prompt.llm.LLMCapability
 import ai.koog.prompt.llm.LLMProvider
 import ai.koog.prompt.llm.LLModel
+// import io.ktor.client.*
+// import io.ktor.client.plugins.logging.*
 
 val llmModel = LLModel(
     provider = LLMProvider.OpenAI,
@@ -30,5 +33,13 @@ val llmClient = OpenAILLMClient(
     apiKey = "",
     settings = OpenAIClientSettings(
         baseUrl = "http://127.0.0.1:1234"
-    )
+    ),
+    // baseClient = HttpClient {
+    //     install(Logging) {
+    //         logger = Logger.DEFAULT
+    //         level = LogLevel.ALL
+    //     }
+    // },
 )
+
+val singleLLMPromptExecutor = SingleLLMPromptExecutor(llmClient)

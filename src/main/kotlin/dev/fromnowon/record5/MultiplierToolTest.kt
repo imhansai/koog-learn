@@ -5,24 +5,16 @@ import ai.koog.agents.core.agent.functionalStrategy
 import ai.koog.agents.core.dsl.extension.*
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.core.tools.reflect.asTools
-import ai.koog.prompt.executor.clients.openai.OpenAIClientSettings
-import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
+import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
 
     // Create an agent
     val agent = AIAgent(
-        promptExecutor = SingleLLMPromptExecutor(
-            OpenAILLMClient(
-                apiKey = "",
-                settings = OpenAIClientSettings(
-                    baseUrl = "http://127.0.0.1:1234"
-                )
-            )
-        ),
-        llmModel = openAILLModel,
+        promptExecutor = singleLLMPromptExecutor,
+        llmModel = llmModel,
         toolRegistry = ToolRegistry {
             tools(MathTools().asTools())
         },

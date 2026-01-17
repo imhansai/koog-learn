@@ -6,13 +6,9 @@ import ai.koog.agents.memory.model.*
 import ai.koog.agents.memory.providers.LocalFileMemoryProvider
 import ai.koog.agents.memory.providers.LocalMemoryConfig
 import ai.koog.agents.memory.storage.SimpleStorage
-import ai.koog.prompt.executor.clients.openai.OpenAIClientSettings
-import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
-import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
-import ai.koog.prompt.llm.LLMCapability
-import ai.koog.prompt.llm.LLMProvider
-import ai.koog.prompt.llm.LLModel
 import ai.koog.rag.base.files.JVMFileSystemProvider
+import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 import kotlin.io.path.Path
 
 class PersonalizedGreeter {
@@ -41,41 +37,9 @@ class PersonalizedGreeter {
 
     // 創建具備記憶體功能的 Agent
     val aiAgentService = AIAgentService(
-        promptExecutor = SingleLLMPromptExecutor(
-            // 可以根据情况切换为其他的 LLMClient
-            llmClient = OpenAILLMClient(
-                apiKey = "",
-                settings = OpenAIClientSettings(
-                    baseUrl = "http://127.0.0.1:1234" // 这里使用 lm studio 运行本地 LLM server
-                ),
-                // baseClient = HttpClient {
-                //     install(Logging) {
-                //         logger = Logger.DEFAULT
-                //         level = LogLevel.ALL
-                //     }
-                // },
-            )
-        ),
+        promptExecutor = singleLLMPromptExecutor,
         systemPrompt = createSystemPrompt(),
-        llmModel = LLModel(
-            provider = LLMProvider.OpenAI,
-            id = "gpt-oss-20b",
-            capabilities = listOf(
-                LLMCapability.Temperature,
-                LLMCapability.ToolChoice,
-                LLMCapability.Schema.JSON.Basic,
-                LLMCapability.Schema.JSON.Standard,
-                LLMCapability.Speculation,
-                LLMCapability.Tools,
-                LLMCapability.Document,
-                LLMCapability.Completion,
-                LLMCapability.MultipleChoices,
-                LLMCapability.OpenAIEndpoint.Completions,
-                LLMCapability.OpenAIEndpoint.Responses,
-            ),
-            contextLength = 4_096,
-            maxOutputTokens = 131_072,
-        )
+        llmModel = llmModel
     ) {
         // 安裝記憶體功能
         install(AgentMemory) {
