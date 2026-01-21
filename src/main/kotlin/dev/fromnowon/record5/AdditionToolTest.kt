@@ -5,8 +5,8 @@ import ai.koog.agents.core.tools.SimpleTool
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.core.tools.annotations.LLMDescription
 import ai.koog.agents.ext.tool.SayToUser
-import ai.koog.prompt.executor.clients.dashscope.DashscopeModels
-import dev.fromnowon.dashscopeLLMPromptExecutor
+import dev.fromnowon.llmModel
+import dev.fromnowon.singleLLMPromptExecutor
 import kotlinx.serialization.Serializable
 
 suspend fun main() {
@@ -17,8 +17,8 @@ suspend fun main() {
     }
 
     val additionToolAgent = AIAgent(
-        promptExecutor = dashscopeLLMPromptExecutor,
-        llmModel = DashscopeModels.QWEN3_MAX,
+        promptExecutor = singleLLMPromptExecutor,
+        llmModel = llmModel,
         temperature = 0.7,
         toolRegistry = toolRegistry,
         maxIterations = 30
@@ -48,9 +48,9 @@ object AddTool : SimpleTool<AddTool.Args>(
     override suspend fun execute(args: Args): String {
         return runCatching {
             val result = args.number1 + args.number2
-            "计算结果: ${args.number1} + ${args.number2} = $result"
+            "计算结果: ${args.number1} + ${args.number2} = $result".also { println(it) }
         }.getOrElse {
-            "计算异常: ${it.message}"
+            "计算异常: ${it.message}".also { str -> println(str) }
         }
     }
 

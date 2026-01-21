@@ -10,7 +10,7 @@ suspend fun main() {
     val agent = AIAgent(
         promptExecutor = singleLLMPromptExecutor,
         llmModel = llmModel,
-        systemPrompt = "你是一位资深的Kotlin/Java工程师，请用简体中文回答问题。" // 系统提示
+        systemPrompt = "请用简体中文回答问题" // 系统提示
     )
 
     val response = agent.run("你好！请介绍一下自己")
